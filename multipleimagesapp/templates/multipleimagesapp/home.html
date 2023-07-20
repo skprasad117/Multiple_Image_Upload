@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+          border-collapse: collapse;
+        }
+       
+    </style>
+</head>
+<body>
+
+    <div><h1>Index of Gallery</h1>
+      <form action="{% url 'multipleimagesapp:uploadhandler' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Give a name to your gallery">
+        <input type="file" name="images" multiple>
+        <button>Upload Images</button>
+      </form>
+        <table>
+            
+            <tr>
+                <th>S.no</th>
+                <th>Title</th>
+                <th>Data</th>
+                <th>Visit</th>
+                <th>Upload</th>
+                <th>Delete</th>
+              </tr>
+              {% for row in context %}
+              <tr>
+                <td>{{row.pk}}</td>
+                <td>{{row.title}}</td>
+                <td>{{row.images}}</td>
+                <td><a href="{% url 'multipleimagesapp:gallery' row.pk  %}">view</a></td>
+                <td>
+                  <p>{{row.pk}}</p>
+                  <form action="{% url 'multipleimagesapp:uploadhandler' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input  type = "hidden" name="image_id" value={{row.pk}}>
+                    <input type="file" name="images" multiple>
+                    <button>Upload Images</button>
+                    </form>
+                </td>
+                <td>Click here</td>
+              </tr>
+              {% endfor %}
+        
+        </table>
+       
+    </div>
+</body>
+</html>

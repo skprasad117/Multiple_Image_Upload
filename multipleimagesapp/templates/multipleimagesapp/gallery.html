@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Gallery</h1>
+        <span><h3>Title : {{data.title}}</h3></span>
+        <p>{{data.images}}</p>
+        {% for image in data.images %}
+        <div>
+            <img src="{{image}}" alt="" width="150">
+            <form style="display: inline-block;" action="{% url 'multipleimagesapp:delete'%}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="uid" value={{data_uid}}>
+                <input type="hidden" name="image" value={{image}}>
+                <button>delete</button>
+            </form>
+            <form style="display: inline-block;"  action="{% url 'multipleimagesapp:update'%}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="uid" value={{data_uid}}>
+                <input type="hidden" name="image" value={{image}}>
+                <input type="file" name="file" multiple>
+                <button>Update</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
